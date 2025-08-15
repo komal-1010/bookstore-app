@@ -1,0 +1,174 @@
+{
+  "info": {
+    "name": "E-Commerce Backend",
+    "_postman_id": "ecom-backend-collection",
+    "description": "Postman collection for testing Django + DRF E-Commerce backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"password\": \"Test@123\"\n}"
+            },
+            "url": { "raw": "{{BASE_URL}}/api/auth/register/", "host": ["{{BASE_URL}}"], "path": ["api","auth","register"] }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"Test@123\"\n}"
+            },
+            "url": { "raw": "{{BASE_URL}}/api/auth/login/", "host": ["{{BASE_URL}}"], "path": ["api","auth","login"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "List Categories",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{BASE_URL}}/api/categories/", "host": ["{{BASE_URL}}"], "path": ["api","categories"] }
+          }
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{JWT_TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Electronics\"\n}"
+            },
+            "url": { "raw": "{{BASE_URL}}/api/categories/", "host": ["{{BASE_URL}}"], "path": ["api","categories"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List Products",
+          "request": { "method": "GET", "url": { "raw": "{{BASE_URL}}/api/products/", "host": ["{{BASE_URL}}"], "path": ["api","products"] } }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{JWT_TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop\",\n  \"price\": 999.99,\n  \"description\": \"High performance laptop\",\n  \"category\": 1\n}"
+            },
+            "url": { "raw": "{{BASE_URL}}/api/products/", "host": ["{{BASE_URL}}"], "path": ["api","products"] }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{JWT_TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gaming Laptop\",\n  \"price\": 1299.99,\n  \"description\": \"High performance gaming laptop\",\n  \"category\": 1\n}"
+            },
+            "url": { "raw": "{{BASE_URL}}/api/products/1/", "host": ["{{BASE_URL}}"], "path": ["api","products","1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "View Cart",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{JWT_TOKEN}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/cart/", "host": ["{{BASE_URL}}"], "path": ["api","cart"] }
+          }
+        },
+        {
+          "name": "Add Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{JWT_TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product\": 1,\n  \"quantity\": 2\n}"
+            },
+            "url": { "raw": "{{BASE_URL}}/api/cart/add_item/", "host": ["{{BASE_URL}}"], "path": ["api","cart","add_item"] }
+          }
+        },
+        {
+          "name": "Remove Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{JWT_TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"product\": 1\n}" },
+            "url": { "raw": "{{BASE_URL}}/api/cart/remove_item/", "host": ["{{BASE_URL}}"], "path": ["api","cart","remove_item"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Place Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{JWT_TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"shipping_address\": \"123 Street, City, Country\"\n}" },
+            "url": { "raw": "{{BASE_URL}}/api/orders/", "host": ["{{BASE_URL}}"], "path": ["api","orders"] }
+          }
+        },
+        {
+          "name": "View My Orders",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{JWT_TOKEN}}" }],
+            "url": { "raw": "{{BASE_URL}}/api/orders/", "host": ["{{BASE_URL}}"], "path": ["api","orders"] }
+          }
+        }
+      ]
+    }
+  ]
+}

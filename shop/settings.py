@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,7 +41,9 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
 
-    "user"
+    "user",
+    'store',
+    'payments'
 ]
 
 MIDDLEWARE = [
@@ -75,7 +78,10 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
 WSGI_APPLICATION = "shop.wsgi.application"
 
 
@@ -85,11 +91,14 @@ WSGI_APPLICATION = "shop.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'boostore'),
-        'USER': os.getenv('DB_USER', 'bookstore_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'bookstore_pass'),
-        'HOST': os.getenv('DB_HOST', 'db'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'NAME': 'bookstore',
+        'USER': 'postgres.ymqgzgkoebmntrohfqkz',
+        'PASSWORD': 'ZVFLKjRRW9WTGmIy',
+        'HOST': 'aws-1-ap-south-1.pooler.supabase.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
@@ -134,3 +143,7 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+STRIPE_SECRET_KEY = "sk_test_..."
+STRIPE_PUBLIC_KEY = "pk_test_..."
+FRONTEND_URL = "http://localhost:3000" 
