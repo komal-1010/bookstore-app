@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
 
+    'shop',   
     "user",
     'store',
     'payments'
@@ -63,7 +64,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware"
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "https://jubilant-dollop-7wjr5w9wvrphx9v-5173.app.github.dev",
+]
 ROOT_URLCONF = "shop.urls"
 AUTH_USER_MODEL = 'user.User'
 TEMPLATES = [
