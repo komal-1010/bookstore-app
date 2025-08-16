@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
 
@@ -57,7 +58,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "shop.urls"
-
+AUTH_USER_MODEL = 'user.User'
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -91,11 +92,11 @@ WSGI_APPLICATION = "shop.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bookstore',
+        'NAME': 'postgres',
         'USER': 'postgres.ymqgzgkoebmntrohfqkz',
         'PASSWORD': 'ZVFLKjRRW9WTGmIy',
         'HOST': 'aws-1-ap-south-1.pooler.supabase.com',
-        'PORT': '5432',
+        'PORT': '6543',
         'OPTIONS': {
             'sslmode': 'require',
         },
