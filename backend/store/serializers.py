@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Category, Cart, CartItem, Order, OrderItem
+from .models import Product, Category, Cart, CartItem, Order, OrderItem,ProductImage
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,7 +21,7 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['owner']
 
-     def create(self, validated_data):
+    def create(self, validated_data):
         image_files = validated_data.pop('image_files', [])
         product = Product.objects.create(
             owner=self.context['request'].user,
@@ -30,6 +30,7 @@ class ProductSerializer(serializers.ModelSerializer):
         for image in image_files:
             ProductImage.objects.create(product=product, image=image)
         return product
+
 
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
