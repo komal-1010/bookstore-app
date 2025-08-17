@@ -73,8 +73,13 @@ class OrderViewSet(viewsets.ViewSet):
 
     def list(self, request):
         orders = Order.objects.filter(user=request.user).order_by('-created_at')
-        return Response(OrderSerializer(orders, many=True).data)
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
 
+    def retrieve(self, request, pk=None):
+        order = get_object_or_404(Order, pk=pk, user=request.user)
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
     def create(self, request):
         """User creates an order from their cart."""
         shipping_address = request.data.get('shipping_address')
