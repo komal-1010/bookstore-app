@@ -7,17 +7,32 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'created_at']
 
 
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ['id', 'image', 'uploaded_at']
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     category_id = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(), source="category", write_only=True
     )
 
+    # 🔽 Show existing images for the product
+    images = ProductImageSerializer(source='productimage_set', many=True, read_only=True)
+
+    # 🔼 Accept new images as file upload list
+    image_files = serializers.ListField(
+        child=serializers.ImageField(),
+        write_only=True,
+        required=False
+    )
+
     class Meta:
         model = Product
         fields = [
             'id', 'name', 'description', 'price', 'stock',
-            'category', 'category_id', 'owner', 'created_at','images', 'image_files'
+            'category', 'category_id', 'owner', 'created_at',
+            'images', 'image_files'  # These are virtual fields, not model fields
         ]
         read_only_fields = ['owner']
 
@@ -32,10 +47,6 @@ class ProductSerializer(serializers.ModelSerializer):
         return product
 
 
-class ProductImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductImage
-        fields = ['id', 'image', 'uploaded_at']
 
 class CartItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name', read_only=True)
