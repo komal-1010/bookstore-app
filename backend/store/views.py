@@ -7,6 +7,7 @@ from .models import Product, Category, Cart, Order, CartItem, OrderItem
 from .serializers import ProductSerializer, CategorySerializer, CartSerializer, OrderSerializer
 from user.permissions import IsAdminOrReadOnly
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
