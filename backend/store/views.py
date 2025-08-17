@@ -1,11 +1,12 @@
 from rest_framework import viewsets, permissions
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from .models import Product, Category, Cart, Order, CartItem, OrderItem
 from .serializers import ProductSerializer, CategorySerializer, CartSerializer, OrderSerializer
 from user.permissions import IsAdminOrReadOnly
+from rest_framework import status
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -17,7 +18,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

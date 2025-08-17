@@ -26,6 +26,8 @@ SECRET_KEY = "django-insecure-9wvcu40iyy7wmc@no%7p=4o&)aq32@(g&ay4cloaeu%!zw!li%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
@@ -156,6 +158,6 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-STRIPE_SECRET_KEY = "sk_test_..."
-STRIPE_PUBLIC_KEY = "pk_test_..."
-FRONTEND_URL = "http://localhost:3000" 
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+STRIPE_PUBLIC_KEY =os.getenv('STRIPE_PUBLIC_KEY')
+FRONTEND_URL = os.getenv('FRONTEND_URL')

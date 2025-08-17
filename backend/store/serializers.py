@@ -17,13 +17,24 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             'id', 'name', 'description', 'price', 'stock',
-            'category', 'category_id', 'owner', 'created_at'
+            'category', 'category_id', 'owner', 'created_at','images', 'image_files'
         ]
         read_only_fields = ['owner']
 
-    def create(self, validated_data):
-        validated_data['owner'] = self.context['request'].user
-        return super().create(validated_data)
+     def create(self, validated_data):
+        image_files = validated_data.pop('image_files', [])
+        product = Product.objects.create(
+            owner=self.context['request'].user,
+            **validated_data
+        )
+        for image in image_files:
+            ProductImage.objects.create(product=product, image=image)
+        return product
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ['id', 'image', 'uploaded_at']
 
 class CartItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name', read_only=True)

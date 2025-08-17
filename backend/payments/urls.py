@@ -4,4 +4,5 @@ from .views import CreateCheckoutSessionView
 
 urlpatterns = [
     path('create-checkout-session/<int:order_id>/', CreateCheckoutSessionView.as_view(), name='create-checkout-session'),
+    path('webhooks/stripe/', stripe_webhook, name='stripe-webhook'),
 ]
