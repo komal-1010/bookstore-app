@@ -41,16 +41,13 @@ class CartViewSet(viewsets.ViewSet):
         try:
             product = Product.objects.get(id=product_id)
         except Product.DoesNotExist:
-            return Response({'error': 'Product not found'}, status=404)
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
         cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
-        if not created:
-            cart_item.quantity += quantity
-        else:
-            cart_item.quantity = quantity
+        cart_item.quantity = cart_item.quantity + quantity if not created else quantity
         cart_item.save()
 
-        return Response(CartSerializer(cart).data)
+        return Response(CartSerializer(cart).data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
 
     @action(detail=False, methods=['post'])
     def remove_item(self, request):

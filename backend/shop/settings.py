@@ -32,7 +32,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'jubilant-dollop-7wjr5w9wvrphx9v-5173.app.github.dev',
-    'bookstore-app-hsz2.onrender.com',  
+    'bookstore-app-e464.onrender.com',  
 ]
 
 
