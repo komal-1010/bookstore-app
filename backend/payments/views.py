@@ -31,7 +31,7 @@ class CreateCheckoutSessionView(APIView):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url=f"{settings.FRONTEND_URL}/payment-success?session_id={{CHECKOUT_SESSION_ID}}",
+            success_url=f"{settings.FRONTEND_URL}/order-confirmation/{order.id}?session_id={{CHECKOUT_SESSION_ID}}",
             cancel_url=f"{settings.FRONTEND_URL}/payment-cancel",
         )
 
@@ -46,32 +46,27 @@ class CreateCheckoutSessionView(APIView):
 @csrf_exempt
 def stripe_webhook(request):
     payload = request.body
-    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
-    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
+    event = None
 
     try:
         event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
+            payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
-    except ValueError as e:
-        return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError:
         return HttpResponse(status=400)
 
-    if event['type'] == 'checkout.session.completed':
-        session = event['data']['object']
-        session_id = session.get("id")
-
+    if event["type"] == "checkout.session.completed":
+        session = event["data"]["object"]
+        order_id = session["success_url"].split("/")[-1].split("?")[0]  # extract order id
         try:
-            payment = Payment.objects.get(stripe_session_id=session_id)
-            payment.status = "paid"
-            payment.save()
-
-            order = payment.order
+            order = Order.objects.get(id=order_id)
             order.status = "placed"
             order.save()
+        except Order.DoesNotExist:
+            pass
 
-        except Payment.DoesNotExist:
-            return HttpResponse(status=404)
+        # update payment table
+        Payment.objects.filter(stripe_checkout_id=session["id"]).update(status="paid")
 
     return HttpResponse(status=200)
