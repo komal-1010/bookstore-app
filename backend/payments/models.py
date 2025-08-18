@@ -5,7 +5,6 @@ from store.models import Order, Product
 from user.models import User
 
 class Payment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='payments')
     order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='payment')
     
     stripe_session_id = models.CharField(max_length=255, blank=True, null=True)

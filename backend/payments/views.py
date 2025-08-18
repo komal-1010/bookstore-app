@@ -37,6 +37,7 @@ class CreateCheckoutSessionView(APIView):
 
         Payment.objects.create(
             order=order,
+            user=request.user,
             stripe_session_id=session.id,
             status='pending'
         )
