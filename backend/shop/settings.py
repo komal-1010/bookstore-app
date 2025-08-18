@@ -32,8 +32,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'jubilant-dollop-7wjr5w9wvrphx9v-5173.app.github.dev',
-    'bookstore-app-e464.onrender.com',
-    'bookstore-app-frontend-git-main-komal-1010s-projects.vercel.app'  
+    'bookstore-app-e464.onrender.com'  
 ]
 
 
@@ -69,7 +68,6 @@ MIDDLEWARE = [
 ]
 CORS_ALLOWED_ORIGINS = [
     "https://jubilant-dollop-7wjr5w9wvrphx9v-5173.app.github.dev",
-    "http://bookstore-app-frontend-git-main-komal-1010s-projects.vercel.app"
 ]
 CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = "shop.urls"
