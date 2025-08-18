@@ -5,8 +5,7 @@ from store.models import Order, Product
 from user.models import User
 
 class Payment(models.Model):
-    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='payment')
-    
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='payment') 
     stripe_session_id = models.CharField(max_length=255, blank=True, null=True)
     stripe_payment_intent = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=50, default='pending')  # pending, paid, failed
