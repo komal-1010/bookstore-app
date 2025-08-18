@@ -63,7 +63,7 @@ class CartViewSet(viewsets.ViewSet):
         return Response(CartSerializer(cart).data)
 
 
-class OrderViewSet(viewsets.ViewSet):
+class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def total_price(self):
