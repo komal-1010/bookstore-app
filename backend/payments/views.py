@@ -31,7 +31,7 @@ class CreateCheckoutSessionView(APIView):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url=f"{settings.FRONTEND_URL}/order-confirmation/{order.id}?session_id={{CHECKOUT_SESSION_ID}}",
+            success_url=f"{settings.FRONTEND_URL}/order-confirmation/{order.id}",
             cancel_url=f"{settings.FRONTEND_URL}/payment-cancel",
         )
 
