@@ -67,6 +67,7 @@ def stripe_webhook(request):
             pass
 
         # update payment table
-        Payment.objects.filter(stripe_checkout_id=session["id"]).update(status="paid")
+        Payment.objects.filter(stripe_session_id=session["id"]).update(status="paid")
+
 
     return HttpResponse(status=200)
