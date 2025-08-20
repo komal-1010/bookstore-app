@@ -109,29 +109,6 @@ python manage.py loaddata fixtures/books.json
 python manage.py runserver 0.0.0.0:8000
 ```
 
-### 8) Start Celery (optional but recommended)
-
-Open **two terminals**:
-
-```bash
-# Terminal A – worker
-celery -A backend worker -l info
-
-# Terminal B – beat (if you schedule tasks)
-celery -A backend beat -l info
-```
-
-### 9) Stripe webhook for local dev
-
-Install Stripe CLI and run:
-
-```bash
-stripe login
-stripe listen --forward-to http://localhost:8000/api/payments/webhooks/stripe/
-```
-
-Copy the **Signing secret** it prints and set it as `STRIPE_WEBHOOK_SECRET` in `.env`.
-
 ---
 
 ## 🐳 Docker Setup (Backend)
